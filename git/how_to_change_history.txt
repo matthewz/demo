@@ -1,0 +1,6 @@
+git checkout OLD
+git commit --amend --author "New Author <New.Author@domain.com>"
+git replace OLD NEW
+git filter-branch -- --all
+git replace -d OLD
+git push -f origin master
