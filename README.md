@@ -2,6 +2,9 @@
 
 Documentation: URL / Web. Ref. 
 
+Instructions: to run, cd to the PY directory and run: main.py -h 
+              for examples of command line args to run_tests.txt
+
 ##Description:
 Python calls to handle common tasks that involve GCP information gathering and maintenance activites 
 - gcloud API?
