@@ -1,0 +1,18 @@
+set -x
+
+rm /tmp/my_fab_log.txt ; ./main.py --log_level info ; cat /tmp/my_fab_log.txt 
+rm /tmp/my_fab_log.txt ; ./main.py --log_level err ; cat /tmp/my_fab_log.txt 
+rm /tmp/my_fab_log.txt ; ./main.py --log_level error ; cat /tmp/my_fab_log.txt 
+rm /tmp/my_fab_log.txt ; ./main.py --log_level error ; cat /tmp/my_fab_log.txt 
+rm /tmp/my_fab_log.txt ; ./main.py --debug --log_level info ; cat /tmp/my_fab_log.txt 
+rm /tmp/my_fab_log.txt ; ./main.py --log_level info --debug ; cat /tmp/my_fab_log.txt 
+./main.py --debug
+./main.py
+./main.py -h
+#./main.py --proj orgproj-dev --zone us-west2-a
+#./main.py --proj orgproj-dev --zone us-west2-a --region us-west2
+#./main.py --proj orgproj-dev --apo aol, ibm, usd, btc, any, all
+#./main.py --proj orgproj-dev --shared_proj orgproj-sh-dev --zone us-west2-a --dns_zone my-izone --region us-west2 
+#./main.py --proj orgproj-dev --shared_proj orgproj-sh-dev --zone us-west2-a --dns_zone my-izone --region us-west2 --images_project my-images
+
+set +x
