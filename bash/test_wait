@@ -1,0 +1,54 @@
+non_blocking_wait()
+{
+   PID=$1
+   RC=127
+   if [ ! -d "/proc/$PID" ] ; then wait $PID ; RC=$? ; fi
+   return $RC
+}
+
+wait_for_pids()
+{
+   RC=0
+   FINISHED_WAITING=0
+   SUCCESS=1
+   while /bin/true
+   do
+      clear
+      date
+      for PID in $(cat /tmp/pidlist)
+      do
+         non_blocking_wait $PID ; RC=$?
+         if [ $RC -ne 127 ]
+         then
+            echo "PID $PID finished with exit code $RC"
+            sed -i "/^.*${PID}.*$/d" /tmp/pidlist
+            if [ $RC -ne 0 ] ; then SUCCESS=0 ; fi
+         else
+            echo "PID $PID is running..."
+         fi
+        sleep 3
+     done
+     if [ $FINISHED_WAITING = 1 ] ; then break ; fi
+     if [[ -z "$(jobs -r)" ]] ; then FINISHED_WAITING=1 ; fi
+   done
+   if [ $SUCCESS -ne 1 ] ; then RC=127 ; fi
+   return $RC
+}
+
+test_wait()
+{
+   RC=0
+   rm -rf /tmp/pidlist 2> /dev/null
+
+   (sleep 10; exit $?) & echo $! >> /tmp/pidlist
+   (sleep 11; exit $?) & echo $! >> /tmp/pidlist
+   (sleep 12; exit $?) & echo $! >> /tmp/pidlist
+   (sleep 13; exit 13) & echo $! >> /tmp/pidlist
+   (sleep 60; exit $?) & echo $! >> /tmp/pidlist
+
+   wait_for_pids ; RC=$?
+   return $RC
+}
+
+test_wait
+
